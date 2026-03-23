@@ -1,0 +1,15 @@
+# Node
+node_modules/
+dist/
+.taro/
+
+# Java
+target/
+*.class
+.mvn/
+
+# IDE & OS
+.DS_Store
+.idea/
+.vscode/
+*.log

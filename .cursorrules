@@ -1,0 +1,13 @@
+﻿# [Global Rules] 20,000 Days Resonance Architect
+
+- **Tech Stack**: Java 25 (Virtual Threads), Spring Boot 3.4, PostgreSQL (pgvector), Redis, Taro (React) + Vite.
+- **I18n First**: 
+  - 所有 UI 文本必须使用 `t('key')`。
+  - 严禁在代码中直接写中/英/日文。
+  - 资源路径遵循 `src/locales/{zh|en|ja}.json`。
+- **Coding Style**:
+  - 关键业务逻辑必须包含 [CN/JP/EN] 三语注释。
+  - 后端使用 `Record` 类型（Java 25）处理 DTO。
+  - 前端使用 Hooks 封装 BSSID 获取逻辑。
+- **Security**: 
+  - BSSID 传往后端前必须进行 SHA-256 脱敏处理。
