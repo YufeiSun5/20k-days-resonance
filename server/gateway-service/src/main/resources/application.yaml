@@ -1,20 +1,25 @@
 server:
-  port: 8080
+  port: ${SERVER_PORT:8080}
 
 spring:
   application:
     name: gateway-service
   cloud:
     gateway:
-      routes:
-        - id: core-service
-          uri: http://localhost:8081
-          predicates:
-            - Path=/api/core/**
-        - id: profile-service
-          uri: http://localhost:8082
-          predicates:
-            - Path=/api/profile/**
+      server:
+        webmvc:
+          routes:
+            # CN: gateway 现在只做最小转发，别在这里先堆鉴权和花活，先把 profile/core 两条业务主链打通。
+            # EN: The gateway currently does only the minimum forwarding. Do not pile auth tricks here first; get the profile/core business paths working first.
+            # JP: gateway は今は最小限の転送だけを担います。先に認可や飾りを積まず、まず profile/core の業務主経路を通します。
+            - id: core-service
+              uri: ${CORE_SERVICE_URI:http://localhost:8081}
+              predicates:
+                - Path=/api/core/**
+            - id: profile-service
+              uri: ${PROFILE_SERVICE_URI:http://localhost:8082}
+              predicates:
+                - Path=/api/profile/**
 
 management:
   endpoints:
