@@ -38,6 +38,17 @@ public class ProfileUserController {
         return UserProfileResponse.from(user);
     }
 
+    @PostMapping("/wechat-login")
+    /**
+     * CN: 这里才是正式微信登录入口：前端拿 code，后端换 openid，再复用或创建用户。
+     * EN: This is the formal WeChat login entry: the frontend sends code, the backend exchanges it for openid, then reuses or creates the user.
+     * JP: ここが正式な WeChat ログイン入口です。フロントが code を送り、バックエンドが openid に交換し、その後でユーザーを再利用または作成します。
+     */
+    public UserProfileResponse wechatLogin(@RequestBody @Validated WechatLoginRequest request) {
+        ProfileUser user = profileUserService.wechatLogin(request.code(), request.locale());
+        return UserProfileResponse.from(user);
+    }
+
     @GetMapping("/{userId}")
     /**
      * CN: 明确按 userId 读取，避免在接口层偷偷引入“当前用户”假设。

@@ -1,0 +1,39 @@
+# 20,000 Days: Spatial Resonance — VS Code AI Instructions
+
+本文件是 VS Code AI 的编辑器适配层；仓库正式规则以 `AGENTS.md` 与 `instructions/` 为准，本文件不得覆盖它们。
+
+## 规则来源 (Rule Sources)
+
+| 层级 | 路径 | 用途 |
+|------|------|------|
+| 产品方向与全局约束 | `AGENTS.md` | 愿景、算法、工程写作规则、当前项目状态 |
+| 稳定默认规则 | `instructions/` | 后端基础、代码风格、i18n、虚拟线程、共振实现 |
+| 可重复操作流程 | `skills/` | 部署、调试、上传、DBeaver 等 SOP |
+| 开发进度记忆 | `MEMORY.md` | 已完成/待办/当前状态快照 |
+
+遇到任何与上述文件冲突时，以 `AGENTS.md` > `instructions/` > 本文件 的优先级为准。
+
+## 关键约束速查 (Key Constraints)
+
+### 语言与注释
+- 业务代码（Controller / Service / Entity / 核心页面 / 关键算法 / 核心 SQL）必须附带中英日三语注释。
+- 代码风格采用 Linus Torvalds 式：直接、具体、少废话、反对无意义抽象。
+
+### 后端
+- 三服务边界：gateway-service (8080) / core-service (8081) / profile-service (8082)，不得随意打穿。
+- 数据库拆分为 resonance_profile 与 resonance_core，严禁跨库外键。
+- Java 21 + Maven，工作区路径固定在 `server/.vfox/sdks/`。
+- 云端 PostgreSQL 只绑 127.0.0.1:15432，禁止暴露公网。
+
+### 前端
+- Taro + React + i18next；所有正式 UI 文本走 i18n 资源，禁止硬编码。
+- BSSID 在前端 SHA-256 脱敏后再传后端，封装为可复用 Hook。
+- 发布路径：本地 build:weapp → 微信开发者工具上传，不走 Docker。
+
+### 测试与验证
+- 功能模块必须带测试用例或最小可验证路径。
+- 后端改动后至少验证 docker logs + actuator/health + 一个真实业务接口。
+- 前端改动后至少走一遍"进入记事本 → 保存 → 获取回响 → 刷新最近记录"链路。
+
+### 知识维护
+- 阶段性工作完成后，主动检查 `skills/`、`instructions/`、`MEMORY.md` 是否需要同步更新。

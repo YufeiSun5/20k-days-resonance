@@ -17,3 +17,9 @@ management:
     web:
       exposure:
         include: health,info
+
+wechat:
+  miniapp:
+    app-id: ${WECHAT_MINIAPP_APP_ID:}
+    app-secret: ${WECHAT_MINIAPP_APP_SECRET:}
+    session-url: ${WECHAT_MINIAPP_SESSION_URL:https://api.weixin.qq.com/sns/jscode2session}

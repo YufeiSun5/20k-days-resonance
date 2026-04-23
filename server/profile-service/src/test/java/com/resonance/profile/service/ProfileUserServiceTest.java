@@ -35,6 +35,9 @@ class ProfileUserServiceTest {
     @Mock
     private AuthIdentityRepository authIdentityRepository;
 
+    @Mock
+    private WechatMiniappAuthClient wechatMiniappAuthClient;
+
     @InjectMocks
     private ProfileUserService profileUserService;
 
@@ -101,5 +104,47 @@ class ProfileUserServiceTest {
         when(userRepository.findById(userId)).thenReturn(Optional.empty());
 
         assertThrows(ResponseStatusException.class, () -> profileUserService.getUser(userId));
+    }
+
+    @Test
+    void wechatLoginReusesExistingUserByOpenId() {
+        ProfileUser existingUser = new ProfileUser();
+        existingUser.setId(UUID.randomUUID());
+        existingUser.setDisplayName("Existing User");
+
+        AuthIdentity existingIdentity = new AuthIdentity();
+        existingIdentity.setUser(existingUser);
+
+        when(wechatMiniappAuthClient.resolveSession("code-1"))
+                .thenReturn(new WechatMiniappSession("openid-1", null, "session-key"));
+        when(authIdentityRepository.findByProviderAndProviderUserId(AuthProvider.wechat_miniapp, "openid-1"))
+                .thenReturn(Optional.of(existingIdentity));
+
+        ProfileUser result = profileUserService.wechatLogin("code-1", "zh-CN");
+
+        assertSame(existingUser, result);
+        verify(userRepository, never()).save(any(ProfileUser.class));
+    }
+
+    @Test
+    void wechatLoginCreatesNewUserWhenOpenIdMissing() {
+        when(wechatMiniappAuthClient.resolveSession("code-2"))
+                .thenReturn(new WechatMiniappSession("openid-2", null, "session-key"));
+        when(authIdentityRepository.findByProviderAndProviderUserId(AuthProvider.wechat_miniapp, "openid-2"))
+                .thenReturn(Optional.empty());
+        when(userRepository.save(any(ProfileUser.class))).thenAnswer(invocation -> {
+            ProfileUser user = invocation.getArgument(0);
+            user.setId(UUID.randomUUID());
+            return user;
+        });
+        when(authIdentityRepository.save(any(AuthIdentity.class))).thenAnswer(invocation -> invocation.getArgument(0));
+
+        ProfileUser result = profileUserService.wechatLogin("code-2", "zh-CN");
+
+        assertEquals("WeChat User", result.getDisplayName());
+        ArgumentCaptor<AuthIdentity> identityCaptor = ArgumentCaptor.forClass(AuthIdentity.class);
+        verify(authIdentityRepository).save(identityCaptor.capture());
+        assertEquals("openid-2", identityCaptor.getValue().getProviderUserId());
+        assertEquals(AuthProvider.wechat_miniapp, identityCaptor.getValue().getProvider());
     }
 }

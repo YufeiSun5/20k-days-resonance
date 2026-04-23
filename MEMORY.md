@@ -3,5 +3,6 @@
 # - 当前线上拓扑: 80/443 -> Nginx -> gateway-service(8080) -> core-service(8081) / profile-service(8082)。
 # - 当前数据库基线: resonance_profile 与 resonance_core；云端 PostgreSQL 应只绑定服务器本机 127.0.0.1:15432，不直接暴露公网 5432。
 # - 当前前端状态: 首页已从联调工作台收口成体验版首页，默认云端 HTTPS 接口为 https://sunyufei5.art。
-# - 当前目标: 收口云端运行维护流程、稳定 DBeaver/SSH 查库路径、继续推进正式发布前的产品化与登录链路收口。
-# - 待办: 正式登录链路、BSSID 真能力接入、正式审核前的隐私/产品页收口、云服务器 compose 文件与本地仓库持续同步机制。
+# - 当前目标: 收口云端运行维护流程、稳定 DBeaver/SSH 查库路径，并完成真微信登录的云端环境变量配置与真机联调验证。
+# - 当前登录状态: 小程序前端已接入 Taro.login()，profile-service 已接入 jscode2session -> openid 的正式登录骨架，头像和昵称只在前端会话态使用，不写回后端数据库。
+# - 待办: 云端补齐 WECHAT_MINIAPP_APP_ID / WECHAT_MINIAPP_APP_SECRET 并重建 profile-service、BSSID 真能力接入、浏览事件与推荐信号增强、正式审核前的隐私/产品页收口、云服务器 compose 文件与本地仓库持续同步机制。

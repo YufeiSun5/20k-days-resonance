@@ -9,6 +9,11 @@ export interface MockLoginRequest {
   provider: 'wechat_miniapp' | 'email'
 }
 
+export interface WechatLoginRequest {
+  code: string
+  locale: string
+}
+
 export interface UserProfileResponse {
   id: string
   displayName: string
@@ -23,6 +28,14 @@ export interface UserProfileResponse {
 export function mockLogin(data: MockLoginRequest) {
   return request<UserProfileResponse>({
     url: '/api/profile/users/mock-login',
+    method: 'POST',
+    data
+  })
+}
+
+export function wechatLogin(data: WechatLoginRequest) {
+  return request<UserProfileResponse>({
+    url: '/api/profile/users/wechat-login',
     method: 'POST',
     data
   })

@@ -42,6 +42,9 @@ services:
       SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER:-postgres}
       SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD:-root}
       SPRING_JPA_HIBERNATE_DDL_AUTO: update
+      WECHAT_MINIAPP_APP_ID: ${WECHAT_MINIAPP_APP_ID:-}
+      WECHAT_MINIAPP_APP_SECRET: ${WECHAT_MINIAPP_APP_SECRET:-}
+      WECHAT_MINIAPP_SESSION_URL: ${WECHAT_MINIAPP_SESSION_URL:-https://api.weixin.qq.com/sns/jscode2session}
     depends_on:
       postgres:
         condition: service_healthy

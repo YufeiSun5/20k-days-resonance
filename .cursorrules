@@ -1,13 +1,9 @@
-﻿# [Global Rules] 20,000 Days Resonance Architect
+﻿# [Cursor Adapter] 20,000 Days Resonance
 
-- **Tech Stack**: Java 25 (Virtual Threads), Spring Boot 3.4, PostgreSQL (pgvector), Redis, Taro (React) + Vite.
-- **I18n First**: 
-  - 所有 UI 文本必须使用 `t('key')`。
-  - 严禁在代码中直接写中/英/日文。
-  - 资源路径遵循 `src/locales/{zh|en|ja}.json`。
-- **Coding Style**:
-  - 关键业务逻辑必须包含 [CN/JP/EN] 三语注释。
-  - 后端使用 `Record` 类型（Java 25）处理 DTO。
-  - 前端使用 Hooks 封装 BSSID 获取逻辑。
-- **Security**: 
-  - BSSID 传往后端前必须进行 SHA-256 脱敏处理。
+- 本文件只是 Cursor 适配层，不是仓库长期规则的唯一事实来源。
+- 仓库通用规则以 AGENTS.md 和 instructions/ 目录为准；如果本文件和它们冲突，以前两者为准。
+- 当前实际技术基线以仓库代码为准：后端当前运行基线为 Java 21，profile-service 当前 Spring Boot 基线为 3.5.x，前端为 Taro React。
+- 正式 UI 文本默认走 i18n 资源，不在业务组件里长期硬编码中文、英文、日文；临时调试文本在收口前清掉。
+- 关键业务逻辑默认补齐中英日三语注释或说明。
+- BSSID 进入后端前必须做 SHA-256 脱敏；前端优先封装为可复用 Hook 或等价能力模块。
+- 完成一个阶段后，主动检查是否需要同步更新 skills、instructions 和 MEMORY.md。

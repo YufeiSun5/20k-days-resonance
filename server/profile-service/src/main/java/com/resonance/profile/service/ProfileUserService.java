@@ -22,10 +22,28 @@ public class ProfileUserService {
 
     private final ProfileUserRepository userRepository;
     private final AuthIdentityRepository authIdentityRepository;
+    private final WechatMiniappAuthClient wechatMiniappAuthClient;
 
-    public ProfileUserService(ProfileUserRepository userRepository, AuthIdentityRepository authIdentityRepository) {
+    public ProfileUserService(
+            ProfileUserRepository userRepository,
+            AuthIdentityRepository authIdentityRepository,
+            WechatMiniappAuthClient wechatMiniappAuthClient) {
         this.userRepository = userRepository;
         this.authIdentityRepository = authIdentityRepository;
+        this.wechatMiniappAuthClient = wechatMiniappAuthClient;
+    }
+
+    @Transactional
+    /**
+     * CN: 真正的微信登录必须先从 code 换 openid，再用 provider_user_id 做身份复用。别拿 mock 流程硬冒充正式登录。
+     * EN: Real WeChat login must exchange code for openid first and then reuse identity by provider_user_id. Do not pretend the mock flow is formal login.
+     * JP: 本物の WeChat ログインは、まず code を openid に交換し、その後 provider_user_id で既存識別子を再利用する必要があります。mock フローを正式ログインのふりに使ってはいけません。
+     */
+    public ProfileUser wechatLogin(String code, String locale) {
+        WechatMiniappSession session = wechatMiniappAuthClient.resolveSession(code);
+        return authIdentityRepository.findByProviderAndProviderUserId(AuthProvider.wechat_miniapp, session.openId())
+                .map(AuthIdentity::getUser)
+                .orElseGet(() -> createWechatUser(session, locale));
     }
 
     @Transactional
@@ -74,6 +92,25 @@ public class ProfileUserService {
         identity.setProviderUserId(resolveProviderUserId(request));
         identity.setEmail(request.email());
         identity.setPasswordHash(request.passwordHash());
+        authIdentityRepository.save(identity);
+        return savedUser;
+    }
+
+    private ProfileUser createWechatUser(WechatMiniappSession session, String locale) {
+        // CN: 这里明确不把微信头像和昵称落库，只创建最小主体和 openid 身份绑定。展示层临时拿到什么，就临时用什么。
+        // EN: Do not persist WeChat avatar or nickname here. Create only the minimum user record and the openid identity binding. Whatever the UI fetched for display remains session-only.
+        // JP: ここでは WeChat のアバターやニックネームを保存しません。最小限のユーザー主体と openid 識別子だけを作成します。表示用に取得した情報はセッション内だけで使います。
+        ProfileUser user = new ProfileUser();
+        user.setDisplayName("WeChat User");
+        if (locale != null && !locale.isBlank()) {
+            user.setLocale(locale);
+        }
+        ProfileUser savedUser = userRepository.save(user);
+
+        AuthIdentity identity = new AuthIdentity();
+        identity.setUser(savedUser);
+        identity.setProvider(AuthProvider.wechat_miniapp);
+        identity.setProviderUserId(session.openId());
         authIdentityRepository.save(identity);
         return savedUser;
     }

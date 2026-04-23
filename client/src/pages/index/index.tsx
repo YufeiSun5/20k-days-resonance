@@ -1,8 +1,8 @@
 import { useState } from 'react'
-import { Button, Input, Text, Textarea, View } from '@tarojs/components'
+import { Button, Image, Input, Text, Textarea, View } from '@tarojs/components'
 import Taro, { useLoad } from '@tarojs/taro'
 import { createJournal, getRecentJournals, recommendJournal, type JournalResponse, type RecommendationResponse } from '../../services/core'
-import { mockLogin, type UserProfileResponse } from '../../services/profile'
+import { mockLogin, type UserProfileResponse, wechatLogin } from '../../services/profile'
 import { getApiBaseUrl } from '../../services/request'
 import './index.scss'
 
@@ -32,7 +32,9 @@ function formatCreatedAt(value?: string) {
 // EN: The home page is now tightened into a personal notebook home instead of exposing raw API-debug details, while the existing minimum-loop backend remains in use underneath.
 // JP: ホーム画面は raw な API デバッグ画面ではなく個人記録のトップへ収束させますが、下では既存の最小閉ループ能力をそのまま使います。
 export default function Index () {
-  const [displayName, setDisplayName] = useState('Sun')
+  const isWeapp = process.env.TARO_ENV === 'weapp'
+  const [sessionDisplayName, setSessionDisplayName] = useState('')
+  const [sessionAvatarUrl, setSessionAvatarUrl] = useState('')
   const [spaceId, setSpaceId] = useState('demo-space-home')
   const [weekday, setWeekday] = useState('1')
   const [journalTitle, setJournalTitle] = useState('礼拜一')
@@ -47,24 +49,46 @@ export default function Index () {
     console.log(`Notebook ready: ${getApiBaseUrl()}`)
   })
 
+  function handleChooseAvatar(event: { detail: { avatarUrl?: string } }) {
+    const avatarUrl = event.detail.avatarUrl?.trim()
+    if (!avatarUrl) {
+      return
+    }
+    setSessionAvatarUrl(avatarUrl)
+    setStatusText('已获取当前微信头像，仅在本次会话里使用。')
+  }
+
   async function handleMockLogin () {
     // CN: 先拿到稳定 userId，后面的所有写日记和推荐请求都靠这个主键串起来。
     // EN: Get a stable userId first. Every later journal and recommendation request hangs off this key.
     // JP: まず安定した userId を取得します。後続の日記作成と推薦リクエストはすべてこのキーにぶら下がります。
     try {
-      setStatusText('正在创建 mock 用户...')
-      const user = await mockLogin({
-        displayName,
-        locale: 'zh-CN',
-        provider: 'wechat_miniapp'
-      })
+      setStatusText(isWeapp ? '正在发起微信登录...' : '正在创建 mock 用户...')
+      const user = isWeapp
+        ? await loginWithWechat()
+        : await mockLogin({
+            displayName: 'Notebook User',
+            locale: 'zh-CN',
+            provider: 'wechat_miniapp'
+          })
       setCurrentUser(user)
       setRecentJournals([])
       setRecommendation(null)
-      setStatusText(`mock-login 成功，userId=${user.id}`)
+      setStatusText(`${isWeapp ? '微信登录' : 'mock-login'} 成功，userId=${user.id}`)
     } catch (error) {
-      setStatusText(`mock-login 失败: ${String(error)}`)
+      setStatusText(`${isWeapp ? '微信登录' : 'mock-login'} 失败: ${String(error)}`)
     }
+  }
+
+  async function loginWithWechat () {
+    const loginResult = await Taro.login()
+    if (!loginResult.code) {
+      throw new Error('wechat login code missing')
+    }
+    return wechatLogin({
+      code: loginResult.code,
+      locale: 'zh-CN'
+    })
   }
 
   async function handleCreateJournal () {
@@ -136,6 +160,10 @@ export default function Index () {
 
   const weekdayNumber = Number(weekday)
   const weekdayLabel = WEEKDAY_LABELS[(weekdayNumber - 1 + 7) % 7] || '周一'
+  const identityName = sessionDisplayName.trim() || currentUser?.displayName || '尚未填写昵称'
+  const identityTip = isWeapp
+    ? '头像和昵称只在当前会话里使用，不写回后端数据库。'
+    : '当前不是微信小程序环境，只能先用手动昵称继续。'
 
   return (
     <View className='index'>
@@ -157,13 +185,30 @@ export default function Index () {
 
       <View className='panel'>
         <Text className='panel-title'>我的身份</Text>
-        <Text className='panel-copy'>先确认当前记录者。现在这版还是最小闭环，所以先用轻量 mock 登录把个人数据串起来。</Text>
-        <Input className='field-input' value={displayName} onInput={(event) => setDisplayName(event.detail.value)} placeholder='怎么称呼你' />
-        <Button className='action-button' onClick={handleMockLogin}>进入我的记事本</Button>
+        <Text className='panel-copy'>先确认当前记录者。微信头像和昵称只拿来做当前会话展示，不写进后端；后端现在只用微信登录拿到稳定 userId，把你的记录串起来。</Text>
+        <View className='identity-picker'>
+          <View className='avatar-preview-shell'>
+            {sessionAvatarUrl ? <Image className='avatar-preview' src={sessionAvatarUrl} mode='aspectFill' /> : <Text className='avatar-placeholder'>头像</Text>}
+          </View>
+          <View className='identity-picker-body'>
+            {isWeapp ? (
+              <Button className='action-button secondary avatar-button' openType='chooseAvatar' onChooseAvatar={handleChooseAvatar}>获取微信头像</Button>
+            ) : null}
+            <Input
+              className='field-input'
+              value={sessionDisplayName}
+              type={isWeapp ? 'nickname' : 'text'}
+              onInput={(event) => setSessionDisplayName(event.detail.value)}
+              placeholder='填写或选择当前昵称'
+            />
+            <Text className='panel-copy subtle-copy'>{identityTip}</Text>
+          </View>
+        </View>
+        <Button className='action-button' onClick={handleMockLogin}>{isWeapp ? '微信进入我的记事本' : '进入我的记事本'}</Button>
         <View className='summary-card'>
           <Text className='summary-label'>当前用户</Text>
-          <Text className='summary-value'>{currentUser ? currentUser.displayName : '尚未登录'}</Text>
-          <Text className='summary-subvalue'>{currentUser ? currentUser.id : '点击上方按钮后生成个人 userId'}</Text>
+          <Text className='summary-value'>{identityName}</Text>
+          <Text className='summary-subvalue'>{currentUser ? `${currentUser.id} · 已拿到后端 userId` : '点击上方按钮后生成个人 userId'}</Text>
         </View>
       </View>
 

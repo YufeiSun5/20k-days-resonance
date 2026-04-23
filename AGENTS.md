@@ -47,9 +47,9 @@
 - **EN**: The current online topology is `80/443 -> Nginx -> gateway-service:8080 -> core/profile`, and PostgreSQL should stay bound only to server-local `127.0.0.1:15432` instead of exposing a public database port.
 - **JP**: 現在のオンライン構成は `80/443 -> Nginx -> gateway-service:8080 -> core/profile` であり、PostgreSQL は公網へ公開せずサーバローカル `127.0.0.1:15432` のみにバインドする前提です。
 
-- **CN**: 当前前端首页已经从联调工作台收口成体验版首页，但账户链路仍是最小 mock 登录形态，后续如果走正式审核，需要继续把产品页和正式登录链路补全。
-- **EN**: The frontend home page has already been tightened from a debug workbench into a trial-home experience, but the account flow is still a minimum mock-login path and should be replaced before formal review.
-- **JP**: フロントのホーム画面はデバッグ用ワークベンチから体験版ホームへ収束済みですが、アカウント経路はまだ最小の mock-login なので、本審査前に正式ログイン経路へ置き換える必要があります。
+- **CN**: 当前前端首页已经从联调工作台收口成体验版首页；微信正式登录代码骨架已接入，前端在小程序环境会走 `Taro.login()`，后端会用 `jscode2session` 换取 `openid` 复用或创建用户，但云端环境变量与真机联调还需要完成最后验证。
+- **EN**: The frontend home page has already been tightened from a debug workbench into a trial-home experience; the formal WeChat login skeleton is now wired in, with the Mini Program using `Taro.login()` and the backend exchanging `jscode2session` for `openid` to reuse or create users, but cloud environment variables and real-device validation still need final verification.
+- **JP**: フロントのホーム画面はデバッグ用ワークベンチから体験版ホームへ収束済みです。さらに正式な WeChat ログインのコード骨格も接続済みで、ミニプログラム側は `Taro.login()` を使い、バックエンド側は `jscode2session` で `openid` を取得して既存ユーザーの再利用または新規作成を行いますが、クラウド環境変数と実機検証はまだ最終確認が必要です。
 
 ## 5. 哪些内容写成 instructions，哪些写成 skills (What Belongs in Instructions vs Skills)
 
@@ -60,3 +60,21 @@
 - **CN**: 可重复执行、带明确步骤的流程写进 skills，例如腾讯云部署、Nginx 接证书、DBeaver 走 SSH 连库、后端单服务更新、小程序体验版上传。
 - **EN**: Repeatable workflows with concrete steps belong in skills, such as Tencent Cloud deployment, Nginx certificate wiring, DBeaver over SSH, one-service backend updates, and Mini Program trial upload.
 - **JP**: 手順が明確で繰り返し実行するワークフローは skills に入れます。Tencent Cloud 配置、Nginx 証明書接続、DBeaver の SSH 接続、単一サービス更新、Mini Program 体験版アップロードなどです。
+
+## 6. 通用执行规则 (Tool-Agnostic Execution Rules)
+
+- **CN**: 本仓库的长期规则以 `AGENTS.md` 与 `instructions/` 目录为准，不把单一编辑器专属文件当成唯一事实来源；如需兼容不同编辑器，可以增加各自适配文件，但内容应回指并服从这里的规则。
+- **EN**: Long-lived repository rules are anchored in `AGENTS.md` and the `instructions/` directory. Editor-specific files must not become the only source of truth; adapter files may exist for different tools, but they should defer to the rules defined here.
+- **JP**: このリポジトリの長期ルールは `AGENTS.md` と `instructions/` ディレクトリを正本とします。特定エディタ専用ファイルを唯一の事実源にしてはいけません。各ツール向けの適応ファイルは作ってよいですが、ここに書かれた規則へ従わせること。
+
+- **CN**: 前端国际化默认要求是：所有正式 UI 文本优先走 i18n 资源，不把中文、英文、日文直接硬编码在业务组件里；只有临时调试、日志、占位验证代码才允许短期例外，收口前必须清掉。
+- **EN**: Frontend internationalization default rule: all production UI text should come from i18n resources instead of being hard-coded in business components. Short-lived exceptions are only acceptable for temporary debugging, logs, or validation stubs and must be removed before the feature is considered complete.
+- **JP**: フロントの国際化に関する既定ルールは、本番 UI 文言を i18n リソースから取得し、業務コンポーネントへ中国語・英語・日本語を直書きしないことです。短期の例外は一時的なデバッグ、ログ、検証用スタブに限り、収束前に必ず除去します。
+
+- **CN**: BSSID 相关能力默认要求是：进入后端前先做 SHA-256 脱敏，前端接入时优先封装成可复用的 Hook 或等价能力模块，而不是把 Wi-Fi 获取和散列逻辑直接撒在页面里。
+- **EN**: BSSID-related functionality must be SHA-256 hashed before reaching the backend. On the frontend, Wi-Fi acquisition and hashing should be wrapped in a reusable Hook or equivalent capability module rather than scattered across pages.
+- **JP**: BSSID 関連機能は、バックエンドへ送る前に必ず SHA-256 で脱敏すること。フロントでは Wi-Fi 取得とハッシュ化のロジックをページへ散らさず、再利用可能な Hook または同等の機能モジュールとしてまとめること。
+
+- **CN**: 阶段性工作做完后，必须主动回看这次变更是否需要同步更新 `skills/`、`instructions/` 和 `MEMORY.md`；凡是新增了长期约束、稳定流程、项目现状，就不要只改代码不补文档记忆。
+- **EN**: After finishing a meaningful stage of work, proactively review whether the change requires updates to `skills/`, `instructions/`, and `MEMORY.md`. If the work introduced a long-lived rule, a stable workflow, or a new project-state fact, do not leave the code updated while the project knowledge remains stale.
+- **JP**: ひと区切りの作業が終わったら、その変更に合わせて `skills/`、`instructions/`、`MEMORY.md` を更新すべきか必ず自発的に見直すこと。長期ルール、安定した手順、現在のプロジェクト状態が変わったなら、コードだけ直して知識資産を放置しないこと。
