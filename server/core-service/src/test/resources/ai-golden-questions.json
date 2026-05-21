@@ -1,0 +1,38 @@
+[
+  {
+    "question": "Scada网页发布失败",
+    "answerType": "troubleshooting",
+    "productScope": "KingSCADA",
+    "expectedSkills": ["kingscada-ch22-client-web", "kingscada-appendix-faq"]
+  },
+  {
+    "question": "RawByTime 和 Calculated 怎么选？",
+    "answerType": "product_diff",
+    "productScope": "KingHistorian",
+    "expectedSkills": ["kingscada-kh"]
+  },
+  {
+    "question": "帮我写一个查询关系库脚本",
+    "answerType": "code_recipe",
+    "productScope": "KingSCADA",
+    "expectedSkills": ["kingscada-ch18-database"]
+  },
+  {
+    "question": "按钮颜色能使用代码改变吗",
+    "answerType": "function_usage",
+    "productScope": "unclear",
+    "expectedSkills": ["kingscada-ch10-animation"]
+  },
+  {
+    "question": "VarRefAddress是啥",
+    "answerType": "concept",
+    "productScope": "unclear",
+    "expectedSkills": ["kingscada-functions"]
+  },
+  {
+    "question": "ks和ksp哪些语法不通用",
+    "answerType": "product_diff",
+    "productScope": "KSP",
+    "expectedSkills": ["kingscada-ch30-portal"]
+  }
+]

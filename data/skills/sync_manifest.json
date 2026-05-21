@@ -1,0 +1,482 @@
+[
+  {
+    "skill": "kingscada-appendix-faq",
+    "references": [
+      {
+        "source": "附录二_常见问题解决方法.md",
+        "target": "appendix-faq.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-appendix-new-features",
+    "references": [
+      {
+        "source": "附录三_版本新增功能.md",
+        "target": "appendix-new-features.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch01-welcome",
+    "references": [
+      {
+        "source": "第1章_欢迎使用SCADA.md",
+        "target": "ch01-welcome-scada.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch02-project-designer",
+    "references": [
+      {
+        "source": "第2章_工程设计器.md",
+        "target": "ch02-project-designer.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch03-display-editor",
+    "references": [
+      {
+        "source": "第3章_画面编辑器.md",
+        "target": "ch03-display-editor.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch04-symbols",
+    "references": [
+      {
+        "source": "第4章_精灵图.md",
+        "target": "ch04-symbols.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch05-controls",
+    "references": [
+      {
+        "source": "第5章_控件.md",
+        "target": "ch05-controls.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch06-security",
+    "references": [
+      {
+        "source": "第6章_用户安全管理系统.md",
+        "target": "ch06-security.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch07-runtime",
+    "references": [
+      {
+        "source": "第7章_运行系统.md",
+        "target": "ch07-runtime.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch08-licensing",
+    "references": [
+      {
+        "source": "第8章_授权配置与使用.md",
+        "target": "ch08-licensing.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch09-variables",
+    "references": [
+      {
+        "source": "第9章_变量.md",
+        "target": "ch09-variables.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch10-animation",
+    "references": [
+      {
+        "source": "第10章_动画连接.md",
+        "target": "ch10-animation.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch11-scripting",
+    "references": [
+      {
+        "source": "第11章_脚本.md",
+        "target": "ch11-scripting.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch12-alarm-event",
+    "references": [
+      {
+        "source": "第12章_报警与事件系统.md",
+        "target": "ch12-alarm-event.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch13-models",
+    "references": [
+      {
+        "source": "第13章_模型.md",
+        "target": "ch13-models.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch14-curves-charts",
+    "references": [
+      {
+        "source": "第14章_曲线与图表.md",
+        "target": "ch14-curves-charts.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch15-reports",
+    "references": [
+      {
+        "source": "第15章_报表系统.md",
+        "target": "ch15-reports.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch16-recipes",
+    "references": [
+      {
+        "source": "第16章_配方管理.md",
+        "target": "ch16-recipes.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch17-data-access",
+    "references": [
+      {
+        "source": "第17章_其他程序访问SCADA数据的方式.md",
+        "target": "ch17-data-access.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch18-database",
+    "references": [
+      {
+        "source": "第18章_数据库访问.md",
+        "target": "ch18-database.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch19-network",
+    "references": [
+      {
+        "source": "第19章_网络.md",
+        "target": "ch19-network.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch20-redundancy",
+    "references": [
+      {
+        "source": "第20章_冗余系统.md",
+        "target": "ch20-redundancy.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch21-resources-i18n",
+    "references": [
+      {
+        "source": "第21章_资源管理与应用国际化.md",
+        "target": "ch21-resources-i18n.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch22-client-web",
+    "references": [
+      {
+        "source": "第22章_客户端应用打包和web化.md",
+        "target": "ch22-client-web.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch23-history",
+    "references": [
+      {
+        "source": "第23章_历史记录.md",
+        "target": "ch23-history.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch24-info-window",
+    "references": [
+      {
+        "source": "第24章_信息窗口.md",
+        "target": "ch24-info-window.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch25-tools",
+    "references": [
+      {
+        "source": "第25章_附加工具.md",
+        "target": "ch25-tools.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch26-app-run-manager",
+    "references": [
+      {
+        "source": "第26章_应用运行管理器.md",
+        "target": "ch26-app-run-manager.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch27-remote-deploy",
+    "references": [
+      {
+        "source": "第27章_远程部署工具.md",
+        "target": "ch27-remote-deploy.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch28-slb",
+    "references": [
+      {
+        "source": "第28章_负载均衡工具KingSCADASLB.md",
+        "target": "ch28-slb.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch29-gis",
+    "references": [
+      {
+        "source": "第29章_GIS系统.md",
+        "target": "ch29-gis.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-ch30-portal",
+    "references": [
+      {
+        "source": "第30章_KingSCADA-Portal瘦客户端系统.md",
+        "target": "ch30-portal.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-command-functions",
+    "references": [
+      {
+        "source": "命令语言函数速查手册.md",
+        "target": "command-language-function-quickref.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-curves-charts",
+    "references": [
+      {
+        "source": "第14章_曲线与图表.md",
+        "target": "ch14-curves-charts.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-data-model-examples",
+    "references": [
+      {
+        "source": "数据模型应用例程.md",
+        "target": "data-model-examples.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-dataset",
+    "references": [
+      {
+        "source": "数据集函数应用例程.md",
+        "target": "dataset-function-examples.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-dataset-examples",
+    "references": [
+      {
+        "source": "数据集函数应用例程.md",
+        "target": "dataset-function-examples.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-function-manual",
+    "references": [
+      {
+        "source": "SCADA_Function_Manual.md",
+        "target": "scada-function-manual.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-functions",
+    "references": [
+      {
+        "source": "命令语言函数速查手册.md",
+        "target": "command-language-function-quickref.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-history-export",
+    "references": [
+      {
+        "source": "历史库导出工具使用手册.md",
+        "target": "history-export-tool.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-kh",
+    "references": [
+      {
+        "source": "KH-SQL_已验证语法.md",
+        "target": "kh-sql-verified-syntax.md"
+      },
+      {
+        "source": "KH_第1章_欢迎使用.md",
+        "target": "kh-ch01-welcome.md"
+      },
+      {
+        "source": "KH_第2章_使用入门.md",
+        "target": "kh-ch02-getting-started.md"
+      },
+      {
+        "source": "KH_第7章_SQL语法.md",
+        "target": "kh-ch07-sql-syntax.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-scripting",
+    "references": [
+      {
+        "source": "第11章_脚本.md",
+        "target": "ch11-scripting.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-user-manual",
+    "references": [
+      {
+        "source": "SCADA_User_Manual.md",
+        "target": "scada-user-manual.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingscada-web-examples",
+    "references": [
+      {
+        "source": "web应用例程.md",
+        "target": "web-examples.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingview-curves-alarm",
+    "references": [
+      {
+        "source": "组态王_曲线与报警.md",
+        "target": "kingview-curves-alarm.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingview-database",
+    "references": [
+      {
+        "source": "组态王_数据库与历史库.md",
+        "target": "kingview-database-history.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingview-graphics",
+    "references": [
+      {
+        "source": "组态王_图形画面与动画.md",
+        "target": "kingview-graphics-animation.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingview-intro",
+    "references": [
+      {
+        "source": "组态王_入门与工程管理.md",
+        "target": "kingview-intro-project-management.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingview-network-advanced",
+    "references": [
+      {
+        "source": "组态王_网络与高级功能.md",
+        "target": "kingview-network-advanced.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingview-reports-recipes",
+    "references": [
+      {
+        "source": "组态王_配方报表与安全管理.md",
+        "target": "kingview-reports-recipes-security.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingview-scripting",
+    "references": [
+      {
+        "source": "组态王_命令语言与运行系统.md",
+        "target": "kingview-scripting-runtime.md"
+      }
+    ]
+  },
+  {
+    "skill": "kingview-variables",
+    "references": [
+      {
+        "source": "组态王_变量定义与管理.md",
+        "target": "kingview-variables-management.md"
+      }
+    ]
+  }
+]

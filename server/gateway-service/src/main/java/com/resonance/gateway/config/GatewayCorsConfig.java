@@ -15,11 +15,15 @@ public class GatewayCorsConfig implements WebMvcConfigurer {
 
     @Override
     public void addCorsMappings(@NonNull CorsRegistry registry) {
-        // CN: 只放开本地开发来源，够联调，不要脑子一热直接 '*'。
-        // EN: Open only local development origins. That is enough for integration; do not lazily drop a global '*'.
-        // JP: ローカル開発オリジンだけを許可します。連携には十分で、安易に全体 '*' を開けるべきではありません。
+        // CN: Web 版生产页会带 Origin 做 JSON/SSE 预检；小程序不会，所以这里必须同时放开正式域名和本地开发来源。
+        // EN: The production web page sends Origin preflights for JSON/SSE; the mini program does not, so allow both production domains and local dev origins.
+        // JP: Web 版の本番ページは JSON/SSE で Origin 付きプリフライトを送ります。ミニプログラムは送らないため、本番ドメインとローカル開発元の両方を許可します。
         registry.addMapping("/api/**")
-                .allowedOriginPatterns("http://127.0.0.1:*", "http://localhost:*")
+                .allowedOriginPatterns(
+                        "https://sunyufei5.art",
+                        "https://www.sunyufei5.art",
+                        "http://127.0.0.1:*",
+                        "http://localhost:*")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS")
                 .allowedHeaders("*")
                 .allowCredentials(false)
